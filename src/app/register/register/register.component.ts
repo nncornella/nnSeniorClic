@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UsersService } from '../../users/users.service';
 
 @Component({
   selector: 'app-register',
@@ -12,11 +13,17 @@ export class RegisterComponent {
 email: string | undefined;
 password: string | undefined;
 confirmPassword: string | undefined;
+passwordError: boolean | undefined;
 
-constructor() {}
+  public userService = inject(UsersService);
 
-register() {
-  console.log(this.email);
-  console.log(this.password);
-}
+  constructor() {}
+
+  register() {
+    const user = { email: this.email, password: this.password };
+    this.userService.register(user).subscribe((data) => {
+      console.log(data);
+    });
+  }
+
 }
